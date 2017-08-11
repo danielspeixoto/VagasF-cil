@@ -1,9 +1,8 @@
-package com.baworks.baworks.view.activity
+package com.baworks.baworks.view.fragments
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-
 
 
 /**
@@ -27,7 +26,7 @@ class TabsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         println(index)
 
-        return CaptureMomentFragment()
+        return ProfileFragment()
     }
 
     override fun getCount(): Int {

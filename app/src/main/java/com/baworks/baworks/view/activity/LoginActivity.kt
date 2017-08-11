@@ -69,9 +69,12 @@ class LoginActivity : BaseActivity(), Login.View, MessageView {
             }
             floatingButton {
                 imageResource = R.drawable.ic_input
-                onClick {
-                    login()
-                }
+                setOnClickListener(object : View.OnClickListener{
+                    override fun onClick(p0: View?) {
+                        login()
+                    }
+                })
+
             }.lparams {
                 margin = resources.getDimensionPixelSize(R.dimen.fab_margin)
                 gravity = Gravity.BOTTOM or GravityCompat.END

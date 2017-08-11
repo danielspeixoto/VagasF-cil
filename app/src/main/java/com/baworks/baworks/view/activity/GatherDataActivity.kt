@@ -17,7 +17,6 @@ import com.baworks.baworks.view.custom.MessageView
 import com.baworks.baworks.view.custom.editField
 import com.baworks.baworks.view.custom.floatingButton
 import org.jetbrains.anko.*
-import org.jetbrains.anko.design.coordinatorLayout
 
 /**
  * Created by daniel on 8/11/17.

@@ -3,6 +3,7 @@ package com.baworks.baworks.view.activity
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.View
 import com.baworks.baworks.R
 import com.baworks.baworks.contract.Main
 import com.baworks.baworks.util.App
@@ -32,9 +33,12 @@ class MainActivity : BaseActivity(), Main.View {
             button(App.getStringResource(R.string.has_no_account)) {
                 textColor = Color.WHITE
                 id = HAS_NO_ACCOUNT
-                onClick {
-                    startActivity<SignUpActivity>()
-                }
+                setOnClickListener(object : View.OnClickListener {
+
+                    override fun onClick(p0: View?) {
+                        startActivity<HomeActivity>()
+                    }
+                })
                 backgroundColor = typedValue.data
             }.lparams(width = matchParent) {
                 bottomMargin = dip(8)
@@ -44,9 +48,12 @@ class MainActivity : BaseActivity(), Main.View {
             button(App.getStringResource(R.string.has_account)) {
                 textColor = Color.WHITE
                 id = HAS_ACCOUNT
-                onClick {
-                    startActivity<LoginActivity>()
-                }
+                setOnClickListener(object : View.OnClickListener {
+
+                    override fun onClick(p0: View?) {
+                        startActivity<LoginActivity>()
+                    }
+                })
                 backgroundColor = typedValue.data
             }.lparams(width = matchParent) {
                 above(HAS_NO_ACCOUNT)

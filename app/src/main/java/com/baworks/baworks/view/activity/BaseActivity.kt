@@ -60,10 +60,10 @@ abstract class BaseActivity : AppCompatActivity() {
                 verticalLayout {
                     lparams(width = wrapContent, height = wrapContent)
                     padding = PARAM_LAYOUT * 4
-                    imageView {
-                        imageResource = drawable
-
-                    }
+//                    imageView() {
+//                        imageResource = drawable
+//
+//                    }
                     textView(message) {
                         textSize = (PARAM_LAYOUT * 3).toFloat()
                         gravity = Gravity.CENTER
@@ -71,7 +71,6 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
             }
             yesButton { }
-
         }.show()
     }
 }

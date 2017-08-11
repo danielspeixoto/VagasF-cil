@@ -26,7 +26,6 @@
         </activity>
         <activity
             android:name=".view.activity.HomeActivity"
-            android:label=""
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.searchable"
