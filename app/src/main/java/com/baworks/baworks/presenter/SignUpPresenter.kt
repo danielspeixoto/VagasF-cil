@@ -29,6 +29,7 @@ class SignUpPresenter(private val view: SignUp.View) : SignUp.Presenter {
                     })
         } else {
             view.setMessageViewText(result)
+            view.closeLoadingDialog()
         }
     }
 }

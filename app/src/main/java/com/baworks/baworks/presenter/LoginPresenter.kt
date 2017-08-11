@@ -40,6 +40,7 @@ class LoginPresenter(private val view: Login.View) : Login.Presenter {
                             })
         } else {
             view.setMessageViewText(result)
+            view.closeLoadingDialog()
         }
     }
 }

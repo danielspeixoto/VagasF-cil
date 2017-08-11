@@ -28,7 +28,7 @@ object Validate {
         if (result != OK) {
             return result
         }
-        if (!Pattern.matches(NAME_REGEX, user.name)) {
+        if (user.name != null && !Pattern.matches(NAME_REGEX, user.name)) {
             result = "O nome não está escrito propriamente"
             return result
         }

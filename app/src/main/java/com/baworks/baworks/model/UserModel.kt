@@ -11,11 +11,17 @@ object UserModel {
 
     var users = ArrayList<User>()
 
+    init {
+        users.add(
+                User("1@g.com", "1", "Daniel")
+        )
+    }
+
     fun logIn(username: String, password: String): Single<User> {
         return Single.create<User> { subscriber ->
             var isHere = false
             users.forEach({
-                if (it.email == username && it.password == password) {
+                if (it.email === username && it.password === password) {
                     isHere = true
                     subscriber.onSuccess(it)
                 }
