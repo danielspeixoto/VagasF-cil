@@ -101,6 +101,9 @@ class ProfileFragment : Fragment() {
                                     }
 
                                     hood = editField {
+                                        hint = "Bairro"
+                                    }
+                                }.lparams(width = 495) {
                                     rightMargin = 30
                                 }
                                 verticalLayout {
@@ -108,9 +111,6 @@ class ProfileFragment : Fragment() {
                                         hint = "CPF"
                                     }
                                     gender = editField {
-                                        hint = "Bairro"
-                                    }
-                                }.lparams(width = 495) {
                                         hint = "Sexo"
                                     }
 
