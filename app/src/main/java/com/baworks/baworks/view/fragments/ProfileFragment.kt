@@ -1,18 +1,28 @@
 package com.baworks.baworks.view.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.InputType
-import android.util.Log
+import android.support.v4.view.GravityCompat
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.baworks.baworks.R
+import com.baworks.baworks.model.UserModel
+import com.baworks.baworks.model.pojo.User
+import com.baworks.baworks.view.activity.HomeActivity
+import com.baworks.baworks.view.custom.EditField
 import com.baworks.baworks.view.custom.editField
+import com.baworks.baworks.view.custom.floatingButton
+import com.baworks.baworks.view.custom.tagList
 import org.jetbrains.anko.*
+import org.jetbrains.anko.design.coordinatorLayout
 import org.jetbrains.anko.support.v4.UI
+import android.graphics.Bitmap
+import android.view.inputmethod.EditorInfo
+import com.baworks.baworks.util.PARAM_LAYOUT
+import com.baworks.baworks.view.fragments.VagaFragment.Companion.adp
 
 
 /**
@@ -20,70 +30,197 @@ import org.jetbrains.anko.support.v4.UI
  */
 class ProfileFragment : Fragment() {
 
+    lateinit var name : EditField
+    lateinit var email : EditField
+    lateinit var pass : EditField
+    lateinit var gender : EditField
+    lateinit var state : EditField
+    lateinit var birth : EditField
+    lateinit var phone : EditField
+    lateinit var city: EditField
+    lateinit var hood : EditField
+    lateinit var cpf : EditField
+    lateinit var about : EditField
+    lateinit var job : EditField
+
+    lateinit var img : ImageView
+
+    var RESULT_LOAD_IMAGE = 3
+
+    companion object {
+        var skills : ArrayList<String> = arrayListOf()
+    }
+    lateinit var bmp : Bitmap
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
+
+        var user = UserModel.currentUser
         return UI {
-            verticalLayout {
-                lparams(width = matchParent, height = matchParent)
-                linearLayout {
-                    verticalLayout {
-                        imageView {
-                            backgroundColor = Color.GRAY
-                        }.lparams(400, 400) {
-                            leftPadding = 20
-                            bottomPadding = leftPadding
-                            margin = 40
+            if(user == null) {
+                coordinatorLayout {
+                    scrollView {
+                        verticalLayout {
+                            lparams(width = matchParent, height = matchParent)
+                            relativeLayout {
+                                img = imageView {
+                                    scaleType = ImageView.ScaleType.FIT_CENTER
+                                    setOnClickListener({
+                                        dispatchTakePictureIntent()
+                                    })
+                                }.lparams(width = 500, height = 500) {
+                                    centerHorizontally()
+                                    bottomMargin = 30
+                                }
+                            }.lparams(width = matchParent, height = 500)
+                            img.setImageResource(R.drawable.insira_sua_foto_aqui_icon)
+                            name = editField {
+                                hint = "Nome"
+                            }
+                            email = editField {
+                                hint = "Email"
+                            }
+                            pass = editField {
+                                hint = "Senha"
+                                inputType = EditorInfo.TYPE_CLASS_TEXT or EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD
+                            }
+                            about = editField {
+                                hint = "Fale sobre você"
+                                gravity = Gravity.START
+                            }.lparams(height = 600, width = matchParent)
+                            city = editField {
+                                hint = "Cidade"
+                            }
+                            linearLayout {
+                                verticalLayout {
+                                    birth = editField {
+                                        hint = "Dia que nasceu"
+                                    }
+                                    phone = editField {
+                                        hint = "DDD + Celular"
+                                    }
+
+                                    hood = editField {
+                                        hint = "Bairro"
+                                    }
+                                }.lparams(width = 495) {
+                                    rightMargin = 30
+                                }
+                                verticalLayout {
+                                    cpf = editField {
+                                        hint = "CPF"
+                                    }
+                                    gender = editField {
+                                        hint = "Sexo"
+                                    }
+
+                                    state = editField {
+                                        hint = "Estado"
+                                    }
+
+                                }.lparams(width = 495) {
+                                }
+                            }.lparams(width = matchParent, height = wrapContent)
+                            job = editField {
+                                hint = "Profissão"
+                            }.lparams(width = matchParent)
+                            tagList {
+                                edit.hint = "Quais são suas habilidades?"
+                            }.lparams(width = matchParent) {
+                                bottomMargin = 200
+                            }
+                        }.lparams {
+                            rightMargin = 30
+                            leftMargin = 30
                         }
-                        editField {
-                            hint = "Dia que nasceu"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
-                        }
-                        editField {
-                            hint = "DDD + Celular"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
-                        }
-                        editField {
-                            hint = "Cidade"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
-                        }
-                        editField {
-                            hint = "Bairro"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
-                        }
-                    }.lparams(width = 500) {
-                        rightMargin = 50
+                    }.lparams(width = matchParent)
+                    floatingButton {
+                        imageResource = R.drawable.ic_save
+                        setOnClickListener({
+                            UserModel.currentUser = (User(
+                                    name.text.toString(),
+                                    email.text.toString(),
+                                    pass.text.toString(),
+                                    gender.text.toString(),
+                                    state.text.toString(),
+                                    birth.text.toString(),
+                                    phone.text.toString(),
+                                    city.text.toString(),
+                                    hood.text.toString(),
+                                    cpf.text.toString(),
+                                    about.text.toString(),
+                                    job.text.toString(),
+                                    bmp
+                            ))
+
+                            UserModel.currentUser!!.skills = skills
+                            if(VagaFragment.adp != null) {
+                                adp.filter(skills)
+                            }
+                            HomeActivity.mViewPager!!.setCurrentItem(2)
+                        })
+                    }.lparams {
+                        margin = resources.getDimensionPixelSize(R.dimen.fab_margin)
+                        gravity = Gravity.BOTTOM or GravityCompat.END
                     }
-                    verticalLayout {
-                        editField {
-                            hint = "Nome"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+                }
+            } else {
+
+                verticalLayout {
+                    relativeLayout() {
+                        var image = imageView {
+                            id = 2342
+                        }.lparams(width = 500, height = 500) {
+                            centerHorizontally()
+                            topMargin = 100
+                            bottomMargin = 50
                         }
-                        editField {
-                            hint = "CPF"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+                        image.setImageBitmap(user.image)
+                        var name = textView(user.name) {
+                            id = 2343
+                            textSize = (PARAM_LAYOUT * 3).toFloat()
+                            bottomPadding = PARAM_LAYOUT
+                        }.lparams {
+                            centerHorizontally()
+                            below(image)
                         }
-                        editField {
-                            hint = "Sexo"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+                        var job = textView(user.job) {
+                            id = 2347
+                            textSize = (PARAM_LAYOUT * 2).toFloat()
+                            bottomPadding = 50
+                        }.lparams {
+                            centerHorizontally()
+                            below(name)
                         }
-                        editField {
-                            hint = "Email"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+                        var about = textView(user.about) {
+                            id = 23121
+                            textSize = (PARAM_LAYOUT * 2 ).toFloat()
+                            padding = PARAM_LAYOUT * 2
+                        }.lparams {
+                            centerHorizontally()
+                            below(job)
                         }
-                        editField {
-                            hint = "Estado"
-                            inputType = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
-                        }
-                    }.lparams(width = 500)
-                }.lparams(width = matchParent, height = wrapContent)
-                imageButton() {
-                    imageResource = R.drawable.loginfacebook
-                    scaleType = ImageView.ScaleType.FIT_CENTER
-                    backgroundColor = Color.TRANSPARENT
-                }.lparams(width = matchParent) {
-                   margin = 40
+
+                    }
+
                 }
             }
         }.view
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val takePictureIntent = android.content.Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(activity.packageManager) != null) {
+            startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: android.content.Intent?) {
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == android.app.Activity.RESULT_OK) {
+            val extras = data!!.getExtras()
+            var imageBitmap = extras.get("data") as android.graphics.Bitmap
+            bmp = imageBitmap
+            img.setImageBitmap(imageBitmap)
+        }
     }
 }

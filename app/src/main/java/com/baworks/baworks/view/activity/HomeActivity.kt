@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import org.jetbrains.anko.appcompat.v7.toolbar
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
+import com.baworks.baworks.R
 import com.baworks.baworks.view.fragments.TabsPagerAdapter
 import org.jetbrains.anko.design.appBarLayout
 import org.jetbrains.anko.design.coordinatorLayout
@@ -20,8 +21,9 @@ import org.jetbrains.anko.wrapContent
  */
 class HomeActivity : BaseActivity() {
 
-    private var mViewPager: ViewPager? = null
-    lateinit var bar : Toolbar
+    companion object {
+        var mViewPager: ViewPager? = null
+    }
     lateinit var tab : TabLayout
 
     @SuppressLint("ResourceType")
@@ -29,9 +31,6 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         coordinatorLayout {
             appBarLayout {
-                bar = toolbar {
-
-                }.lparams(width = matchParent)
                 tab = tabLayout {
 
                 }.lparams(width = matchParent)
@@ -39,11 +38,9 @@ class HomeActivity : BaseActivity() {
             }.lparams(width = matchParent, height = wrapContent)
             mViewPager = viewPager {
                 id = 12341
-                topPadding = 350
+                topPadding = 150
             }.lparams(matchParent, matchParent)
         }
-
-        setSupportActionBar(bar)
 
        tab.setupWithViewPager(mViewPager)
         // Create the adapter that will return a fragment for each of the three
@@ -51,11 +48,11 @@ class HomeActivity : BaseActivity() {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager!!.adapter = TabsPagerAdapter(supportFragmentManager)
-        tab.getTabAt(1)!!.setIcon(android.R.drawable.ic_dialog_email)
-//          +  for (i in 0..tab.getTabCount() - 1) {
-//            tab.getTabAt(i)!!.setIcon(R.drawable.web_hi_res_512)
-//        }
-        mViewPager!!.setCurrentItem(0)
+        tab.getTabAt(0)!!.setIcon(R.drawable.home_icon)
+        tab.getTabAt(1)!!.setIcon(R.drawable.cursos_icon)
+        tab.getTabAt(2)!!.setIcon(R.drawable.vagas_icon)
+        tab.getTabAt(3)!!.setIcon(R.drawable.profile_icon)
+        mViewPager!!.setCurrentItem(3)
     }
 
 

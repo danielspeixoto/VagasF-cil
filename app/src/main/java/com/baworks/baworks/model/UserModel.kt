@@ -11,9 +11,11 @@ object UserModel {
 
     var users = ArrayList<User>()
 
+    var currentUser : User? = null
+
     init {
         users.add(
-                User("1@g.com", "1", "Daniel")
+                User("d@gmail.com", "1", "Daniel")
         )
     }
 
@@ -21,7 +23,7 @@ object UserModel {
         return Single.create<User> { subscriber ->
             var isHere = false
             users.forEach({
-                if (it.email === username && it.password === password) {
+                if (it.email === username && it.pass === password) {
                     isHere = true
                     subscriber.onSuccess(it)
                 }
