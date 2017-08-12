@@ -37,6 +37,10 @@ class VagaFragment : Fragment() {
         if(user != null) {
             //Log.d("dsdsds", user!!.skills.toString())
             for(i in 0 .. vagas.size - 1) {
+                if(vagas[i].titulo == user.job) {
+                    adp.addItem(vagas[i])
+                    continue
+                }
                 for(j in 0 .. vagas[i].caracteristicas.size - 1) {
                     if(user.skills.contains(vagas[i].caracteristicas[j])) {
                         adp.addItem(vagas[i])

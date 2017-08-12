@@ -101,9 +101,6 @@ class ProfileFragment : Fragment() {
                                     }
 
                                     hood = editField {
-                                        hint = "Bairro"
-                                    }
-                                }.lparams(width = 495) {
                                     rightMargin = 30
                                 }
                                 verticalLayout {
@@ -111,6 +108,9 @@ class ProfileFragment : Fragment() {
                                         hint = "CPF"
                                     }
                                     gender = editField {
+                                        hint = "Bairro"
+                                    }
+                                }.lparams(width = 495) {
                                         hint = "Sexo"
                                     }
 
@@ -121,9 +121,16 @@ class ProfileFragment : Fragment() {
                                 }.lparams(width = 495) {
                                 }
                             }.lparams(width = matchParent, height = wrapContent)
-                            job = editField {
-                                hint = "Profissão"
+                            editField {
+                                hint = "Escolaridade"
                             }.lparams(width = matchParent)
+                            job = editField {
+                                hint = "Cargo a exercer"
+                            }.lparams(width = matchParent)
+                            editField {
+                                hint = "Descreva suas experiências anteriores"
+                                gravity = Gravity.START
+                            }.lparams(width = matchParent, height = 600)
                             tagList {
                                 edit.hint = "Quais são suas habilidades?"
                             }.lparams(width = matchParent) {
@@ -157,7 +164,13 @@ class ProfileFragment : Fragment() {
                             if(VagaFragment.adp != null) {
                                 adp.filter(skills)
                             }
+                            val transaction = fragmentManager.beginTransaction()
+                            transaction.detach(this@ProfileFragment)
+                            transaction.attach(this@ProfileFragment)
+                            transaction.commit()
+
                             HomeActivity.mViewPager!!.setCurrentItem(2)
+
                         })
                     }.lparams {
                         margin = resources.getDimensionPixelSize(R.dimen.fab_margin)
